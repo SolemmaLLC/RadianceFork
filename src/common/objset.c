@@ -30,7 +30,7 @@ typedef unsigned long long int	xtra_long;
 typedef unsigned long int	xtra_long;
 #endif
 
-static OBJECT  *ostable[OSTSIZ];	/* the object set table */
+OBJECT  *ostable[OSTSIZ];	/* the object set table */
 
 
 void
