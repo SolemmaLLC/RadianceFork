@@ -11,15 +11,13 @@
 extern "C" {
 #endif
 
-#if defined(_WIN32) || defined(_WIN64)
-#if (RAND_MAX <= 65536)
-#define random()	((long)rand()<<16^(long)rand()<<6^(long)rand()>>4)
-#else
-#define random()	rand()
-#endif
-#define srandom(s)	srand((unsigned)(s))
 
-#define frandom()	(rand()*(1./(RAND_MAX+.5)))
+#if defined(_WIN32) || defined(_WIN64)
+#define RAND_MAX_MP 714025
+
+#define random()	rand_mp()
+#define srandom(s)	srand_mp((int)(s))
+#define frandom()	((double)rand_mp()*(1./(RAND_MAX_MP+.5)))
 
 #else
 
@@ -45,6 +43,10 @@ extern int	ilhash(int *d, int n);
 extern int	urind(int s, int i);
 				/* defined in multisamp.c */
 extern void	multisamp(double t[], int n, double r);
+
+// threadsafe random numbers for windows
+extern void srand_mp(int i);
+extern int rand_mp();
 
 
 #ifdef __cplusplus
