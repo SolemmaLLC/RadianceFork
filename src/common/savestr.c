@@ -39,6 +39,7 @@ typedef struct s_head {
 }  S_HEAD;				/* followed by the string itself */
 
 static S_HEAD  *stab[NHASH];
+#pragma omp threadprivate (stab)
 
 #define  hash(s)	(shash(s)%NHASH)
 

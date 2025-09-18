@@ -57,6 +57,7 @@ static int  htndx;			/* index for */
 static VARDEF  *htpos;			/* ...dfirst() and */
 static EPNODE  *ochpos;			/* ...dnext */
 static EPNODE  *outchan;
+#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan, eclock)
 
 static int  optimized = 0;		/* are we optimized? */
 
@@ -69,7 +70,7 @@ fcompile(			/* get definitions from a file */
 )
 {
     FILE  *fp;
-
+	fprintf(stderr, "loading cal file: %s\n", fname);
     if (fname == NULL)
 	fp = stdin;
     else if ((fp = fopen(fname, "r")) == NULL) {
@@ -292,6 +293,7 @@ qualname(		/* get qualified name */
 )
 {
     static char	 nambuf[MAXCNTX+RMAXWORD+1];
+#pragma omp threadprivate (nambuf)
     char  *cp = nambuf, *cpp;
 				/* check for explicit local */
     if (*nam == CNTXMARK) {

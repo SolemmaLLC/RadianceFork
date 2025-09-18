@@ -75,6 +75,7 @@ static ELIBR  library[MAXLIB] = {
 };
 
 static int  libsize = 18;
+#pragma omp threadprivate (curact, curdepth, next_dreport)
 
 #define  resolve(ep)	((ep)->type==VAR?(ep)->v.ln:eargf((ep)->v.chan))
 

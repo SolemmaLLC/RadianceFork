@@ -82,7 +82,7 @@ static char  *linbuf;			/* line buffer */
 static char  *infile;			/* input file name */
 static int  lineno;			/* input line number */
 static int  linepos;			/* position in buffer */
-
+#pragma omp threadprivate (infp, linbuf, infile, lineno, linepos)
 
 EPNODE *
 eparse(			/* parse an expression string */
@@ -416,7 +416,7 @@ initfile(		/* prepare input file */
 )
 {
     static char	 inpbuf[MAXLINE];
-
+#pragma omp threadprivate (inpbuf)
     infp = fp;
     linbuf = inpbuf;
     infile = fn;
@@ -500,6 +500,7 @@ long2ascii(			      /* convert long to ascii */
 )
 {
     static char	 buf[16];
+#pragma omp threadprivate (buf)
     char  *cp;
     int	 neg = 0;
 
@@ -574,6 +575,7 @@ char *
 getname(void)			/* scan an identifier */
 {
     static char	 str[RMAXWORD+1];
+#pragma omp threadprivate (str)
     int  i, lnext;
 
     lnext = nextc;

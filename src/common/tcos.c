@@ -28,6 +28,7 @@ double
 tcos(double x)				/* approximate cosine */
 {
 	static double	costab[NCOSENTRY+1];
+#pragma omp threadprivate (costab)
 	register int	i;
 
 	if (costab[0] < 0.5)		/* initialize table */

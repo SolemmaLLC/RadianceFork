@@ -12,6 +12,7 @@ static const char	RCSid[] = "$Id: mat4.c,v 2.4 2003/02/25 02:47:21 greg Exp $";
 MAT4  m4ident = MAT4IDENT;
 
 static MAT4  m4tmp;		/* for efficiency */
+#pragma omp threadprivate (m4tmp)
 
 
 void

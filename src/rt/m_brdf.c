@@ -96,6 +96,7 @@ dirbrdf(		/* compute source contribution */
 	COLOR  ctmp;
 	FVECT  ldx;
 	static double  vldx[5], pt[MAXDDIM];
+#pragma omp threadprivate (vldx, pt)
 	char	**sa;
 	int	i;
 #define lddx (vldx+1)
@@ -266,13 +267,13 @@ m_brdf(			/* color a ray that hit a BRDTfunc material */
 	setbrdfunc(&nd);
 	errno = 0;
 	setscolor(sctmp, evalue(mf->ep[3]),
-			evalue(mf->ep[4]),
-			evalue(mf->ep[5]));
+		evalue(mf->ep[4]),
+		evalue(mf->ep[5]));
 	if ((errno == EDOM) | (errno == ERANGE))
 		objerror(m, WARNING, "compute error");
 	else if (rayorigin(&sr, TRANS, r, sctmp) == 0) {
-		if (hastexture && !(r->crtype & (SHADOW|AMBIENT))) {
-						/* perturb direction */
+		if (hastexture && !(r->crtype & (SHADOW | AMBIENT))) {
+			/* perturb direction */
 			VSUB(sr.rdir, r->rdir, r->pert);
 			if (normalize(sr.rdir) == 0.0) {
 				objerror(m, WARNING, "illegal perturbation");
@@ -284,23 +285,23 @@ m_brdf(			/* color a ray that hit a BRDTfunc material */
 		rayvalue(&sr);
 		smultscolor(sr.rcol, sr.rcoef);
 		saddscolor(r->rcol, sr.rcol);
-		if ((!hastexture || r->crtype & (SHADOW|AMBIENT)) &&
-				nd.tspec > pbright(nd.tdiff) + pbright(nd.rdiff))
+		if ((!hastexture || r->crtype & (SHADOW | AMBIENT)) &&
+			nd.tspec > pbright(nd.tdiff) + pbright(nd.rdiff))
 			r->rxt = r->rot + raydistance(&sr);
 	}
 	if (r->crtype & SHADOW)			/* the rest is shadow */
 		return(1);
 
-						/* compute reflected ray */
+	/* compute reflected ray */
 	setbrdfunc(&nd);
 	errno = 0;
 	setscolor(sctmp, evalue(mf->ep[0]),
-			evalue(mf->ep[1]),
-			evalue(mf->ep[2]));
+		evalue(mf->ep[1]),
+		evalue(mf->ep[2]));
 	if ((errno == EDOM) | (errno == ERANGE))
 		objerror(m, WARNING, "compute error");
 	else if (rayorigin(&sr, REFLECTED, r, sctmp) == 0) {
-		VSUM(sr.rdir, r->rdir, nd.pnorm, 2.*nd.pdot);
+		VSUM(sr.rdir, r->rdir, nd.pnorm, 2. * nd.pdot);
 		checknorm(sr.rdir);
 		rayvalue(&sr);
 		smultscolor(sr.rcol, sr.rcoef);
@@ -308,10 +309,10 @@ m_brdf(			/* color a ray that hit a BRDTfunc material */
 		saddscolor(r->rcol, sr.rcol);
 		r->rmt = r->rot;
 		if (r->ro != NULL && isflat(r->ro->otype) &&
-				!hastexture | (r->crtype & AMBIENT))
+			!hastexture | (r->crtype & AMBIENT))
 			r->rmt += raydistance(&sr);
 	}
-						/* compute ambient */
+				/* compute ambient */
 	if (hasrefl) {
 		copyscolor(sctmp, nd.rdiff);
 		multambient(sctmp, r, nd.pnorm);

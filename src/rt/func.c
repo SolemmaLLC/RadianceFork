@@ -30,6 +30,7 @@ XF  unitxf = {			/* identity transform */
 XF  funcxf;			/* current transformation */
 static OBJREC  *fobj = NULL;	/* current function object */
 static RAY  *fray = NULL;	/* current function ray */
+#pragma omp threadprivate (funcxf, fobj, fray, REFVNAME)
 
 static char  rayinitcal[] = INITFILE;
 
@@ -68,6 +69,7 @@ void
 set_eparams(const char *prms)
 {
 	static const char	*last_params = NULL;
+#pragma omp threadprivate (last_params)
 	char			vname[RMAXWORD];
 	double			value;
 	char			*cpd;
@@ -227,6 +229,7 @@ setfunc(			/* set channels for function call */
 )
 {
 	static RNUMBER	lastrno = ~0;
+#pragma omp threadprivate (lastrno)
 	MFUNC		*f;
 					/* get function if any */
 	if ((f = (MFUNC *)m->os) == NULL)

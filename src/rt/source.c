@@ -39,6 +39,7 @@ typedef struct {
 static CONTRIB  *srccnt = NULL;		/* source contributions in direct() */
 static CNTPTR  *cntord = NULL;		/* source ordering in direct() */
 static int  maxcntr = 0;		/* size of contribution arrays */
+#pragma omp threadprivate (srccnt, cntord, maxcntr)
 
 static int cntcmp(const void *p1, const void *p2);
 
