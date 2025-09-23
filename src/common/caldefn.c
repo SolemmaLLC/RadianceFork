@@ -52,12 +52,12 @@ unsigned long  eclock = 0;		/* value storage timer */
 
 static char  context[MAXCNTX+1];	/* current context path */
 
-static VARDEF  *hashtbl[NHASH];		/* definition list */
+VARDEF  *hashtbl[NHASH];		/* definition list */
 static int  htndx;			/* index for */		
 static VARDEF  *htpos;			/* ...dfirst() and */
 static EPNODE  *ochpos;			/* ...dnext */
 static EPNODE  *outchan;
-#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan, eclock)
+#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan)
 
 static int  optimized = 0;		/* are we optimized? */
 
