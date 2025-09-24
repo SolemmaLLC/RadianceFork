@@ -415,8 +415,6 @@ syntax now: -Q n_images n_extrascans_per_image n_images*( imagename x y  n_extra
 #include "platform.h"
 #include "muc_randvar.h"
 
-char *progname;
-
 /* subroutine to add a pixel to a glare source */
 void add_pixel_to_gs(pict * p, int x, int y, int gsn)
 {
@@ -1559,6 +1557,7 @@ int main(int argc, char **argv)
 	char** temp_image_name;
  	int *x_temp_img, *y_temp_img;
  	double *scale_image_scans;
+ 	int *new_gs_number = NULL;
 	VIEW userview = STDVIEW;
 	int gotuserview = 0;
 	
@@ -3079,7 +3078,7 @@ if (calcfast ==1 || search_pix <= 1.0 || calcfast == 2 || patchmode > 0) {
 		
 	}
 
-int new_gs_number[igs+1];
+new_gs_number = (int *)malloc(sizeof(int)*(igs+1));
 
 		i = 0;
 		for (x = 0; x <= igs; x++) {
