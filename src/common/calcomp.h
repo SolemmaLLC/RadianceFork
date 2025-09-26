@@ -73,10 +73,10 @@ typedef struct vardef  VARDEF;	/* a variable definition */
 #define  E_REDEFW	040
 
 extern double  (*eoper[])(EPNODE *);
-extern unsigned long  eclock;
+extern __declspec(thread) unsigned long  eclock;
 extern unsigned int  esupport;
 extern EPNODE	*ecurfunc;
-extern int  nextc;
+extern int nextc;
 extern int  eofc;
 					/* defined in biggerlib.c */
 extern void biggerlib(void);

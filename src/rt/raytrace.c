@@ -140,7 +140,9 @@ rayclear(			/* clear a ray for (re)evaluation */
 	RAY  *r
 )
 {
-	r->rno = raynum++;
+#pragma omp atomic
+	raynum++;
+	r->rno = raynum;
 	r->newcset = r->clipset;
 	r->hitf = rayhit;
 	r->robj = OVOID;

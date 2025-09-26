@@ -30,7 +30,7 @@ XF  unitxf = {			/* identity transform */
 XF  funcxf;			/* current transformation */
 static OBJREC  *fobj = NULL;	/* current function object */
 static RAY  *fray = NULL;	/* current function ray */
-#pragma omp threadprivate (funcxf, fobj, fray, REFVNAME)
+#pragma omp threadprivate (fobj, fray, REFVNAME)
 
 static char  rayinitcal[] = INITFILE;
 

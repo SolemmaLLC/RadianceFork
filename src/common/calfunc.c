@@ -26,15 +26,16 @@ static const char	RCSid[] = "$Id$";
 #define  ALISTSIZ	10	/* maximum saved argument list */
 
 typedef struct activation {
-    char  *name;		/* function name */
-    struct activation  *prev;	/* previous activation */
-    double  *ap;		/* argument list */
+    char* name;		/* function name */
+    struct activation* prev;	/* previous activation */
+    double* ap;		/* argument list */
     unsigned long  an;		/* computed argument flags */
-    EPNODE  *fun;		/* argument function */
+    EPNODE* fun;		/* argument function */
 }  ACTIVATION;		/* an activation record */
 
 static ACTIVATION  *curact = NULL;
 static unsigned long  curdepth = 0, next_dreport = 100;
+#pragma omp threadprivate (curact, curdepth, next_dreport)
 
 static double  libfunc(char *fname, VARDEF *vp);
 static void  report_depth(char *nm);
@@ -75,7 +76,6 @@ static ELIBR  library[MAXLIB] = {
 };
 
 static int  libsize = 18;
-#pragma omp threadprivate (curact, curdepth, next_dreport)
 
 #define  resolve(ep)	((ep)->type==VAR?(ep)->v.ln:eargf((ep)->v.chan))
 
@@ -210,7 +210,7 @@ argument(int n)			/* return nth argument for active function */
     double  aval;
 
     if (!actp | (--n < 0)) {
-	eputs("Bad call to argument!\n");
+    eputs("Bad call to argument!\n");
 	quit(1);
     }
     if ((n < AFLAGSIZ) & actp->an >> n)		/* already computed? */
