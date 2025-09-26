@@ -97,8 +97,16 @@ extern char	RFeatureList[];	/* newline-separated feature list */
 extern CUBE	thescene;	/* our scene */
 extern OBJECT	nsceneobjs;	/* number of objects in our scene */
 
-extern RNUMBER	raynum;		/* next ray ID */
-extern RNUMBER	nrays;		/* total rays traced so far */
+#ifndef THREADPRIVATE
+	#ifndef _OPENMP
+	#define THREADPRIVATE
+	#else
+	#define THREADPRIVATE __declspec(thread)
+	#endif
+#endif
+
+extern THREADPRIVATE RNUMBER	raynum;		/* next ray ID */
+extern THREADPRIVATE RNUMBER	nrays;		/* total rays traced so far */
 
 extern OBJREC  Lamb;		/* a Lambertian surface */
 extern OBJREC  Aftplane;	/* aft clipping object */
@@ -106,9 +114,8 @@ extern OBJREC  Aftplane;	/* aft clipping object */
 extern void	(*trace)(RAY*);	/* global trace reporting callback */
 
 extern int	dimlist[];	/* dimension list for distribution */
-extern int	ndims;		/* number of dimensions so far */
-extern unsigned long
-		samplendx;	/* index for this sample */
+extern THREADPRIVATE int	ndims;		/* number of dimensions so far */
+extern THREADPRIVATE unsigned long samplendx;	/* index for this sample */
 
 extern int	do_irrad;	/* compute irradiance? */
 

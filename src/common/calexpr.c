@@ -49,6 +49,7 @@ unsigned int  esupport =		/* what to support */
 
 int  eofc = 0;				/* optional end-of-file character */
 int  nextc;				/* lookahead character */
+#pragma omp threadprivate (esupport, nextc)
 
 double	(*eoper[])(EPNODE *) = {	/* expression operations */
 	ebotch,

@@ -111,6 +111,7 @@ OBJECT	nsceneobjs;			/* number of objects in our scene */
 int	dimlist[MAXDIM];		/* sampling dimensions */
 int	ndims = 0;			/* number of sampling dimensions */
 unsigned long	samplendx = 0;		/* index for this sample */
+#pragma omp threadprivate (ndims, samplendx)
 
 void	(*trace)() = NULL;		/* trace call */
 

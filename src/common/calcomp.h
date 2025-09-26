@@ -72,11 +72,19 @@ typedef struct vardef  VARDEF;	/* a variable definition */
 #define  E_RCONST	020
 #define  E_REDEFW	040
 
+#ifndef THREADPRIVATE
+#ifndef _OPENMP
+#define THREADPRIVATE
+#else
+#define THREADPRIVATE __declspec(thread)
+#endif
+#endif
+
 extern double  (*eoper[])(EPNODE *);
-extern __declspec(thread) unsigned long  eclock;
-extern unsigned int  esupport;
-extern EPNODE	*ecurfunc;
-extern int nextc;
+extern THREADPRIVATE unsigned long  eclock;
+extern THREADPRIVATE unsigned int  esupport;
+extern THREADPRIVATE EPNODE	*ecurfunc;
+extern THREADPRIVATE int nextc;
 extern int  eofc;
 					/* defined in biggerlib.c */
 extern void biggerlib(void);
