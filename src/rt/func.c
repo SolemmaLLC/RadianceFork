@@ -27,7 +27,7 @@ XF  unitxf = {			/* identity transform */
 	1.0
 };
 
-XF  funcxf;			/* current transformation */
+THREADPRIVATE XF  funcxf;			/* current transformation */
 static OBJREC  *fobj = NULL;	/* current function object */
 static RAY  *fray = NULL;	/* current function ray */
 #pragma omp threadprivate (fobj, fray, REFVNAME)

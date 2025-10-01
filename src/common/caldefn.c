@@ -46,7 +46,7 @@ static double  dvalue(char  *name, EPNODE *d);
 
 #define  MAXCLOCK	(1L<<31)	/* clock wrap value */
 
-unsigned long  eclock = 0;		/* value storage timer */
+THREADPRIVATE unsigned long  eclock = 0;		/* value storage timer */
 
 #define  MAXCNTX	1023		/* maximum context length */
 
@@ -60,8 +60,8 @@ static EPNODE  *outchan;
 
 static int  optimized = 0;		/* are we optimized? */
 
-EPNODE	*ecurfunc = NULL;
-#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan, ecurfunc, hashtbl, eclock)
+THREADPRIVATE EPNODE	*ecurfunc = NULL;
+#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan, hashtbl)
 
 
 void
@@ -121,7 +121,6 @@ evariable(			/* evaluate a variable */
 )
 {
     VARDEF  *dp = ep->v.ln;
-
     return(dvalue(dp->name, dp->def));
 }
 
