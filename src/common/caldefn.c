@@ -1,3 +1,4 @@
+
 #ifndef lint
 static const char	RCSid[] = "$Id: caldefn.c,v 2.41 2025/01/01 19:02:08 greg Exp $";
 #endif
@@ -753,13 +754,12 @@ dvalue(char *name, EPNODE *d)
     ep2 = ep1->sibling;				/* check time */
     if (eclock >= MAXCLOCK)
 	eclock = 1;				/* wrap clock counter */
- //   if (ep2->v.tick < MAXCLOCK &&
-	//	(ep2->v.tick == 0) | (ep2->v.tick != eclock)) {
-	//ep2->v.tick = d->type == ':' ? MAXCLOCK : eclock;
+    if (ep2->v.tick < MAXCLOCK &&
+		(ep2->v.tick == 0) | (ep2->v.tick != eclock)) {
+	ep2->v.tick = d->type == ':' ? MAXCLOCK : eclock;
 	ep2 = ep2->sibling;
 	ep2->v.num = evalue(ep1);		/* needs new value */
- //   } else
-	//ep2 = ep2->sibling;			/* else reuse old value */
-
+    } else
+    ep2 = ep2->sibling;			/* else reuse old value */
     return(ep2->v.num);
 }
