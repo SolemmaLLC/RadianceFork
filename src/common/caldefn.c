@@ -71,7 +71,6 @@ fcompile(			/* get definitions from a file */
 )
 {
     FILE  *fp;
-	fprintf(stderr, "loading cal file: %s\n", fname);
     if (fname == NULL)
 	fp = stdin;
     else if ((fp = fopen(fname, "r")) == NULL) {
