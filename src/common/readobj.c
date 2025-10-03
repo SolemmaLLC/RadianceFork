@@ -20,8 +20,8 @@ static const char RCSid[] = "$Id: readobj.c,v 2.31 2025/06/24 21:04:16 greg Exp 
 #define OBJMEMOPT	0		/* optimize object block memory? */
 #endif
 
-OBJREC  *objblock[MAXOBJBLK];		/* our objects */
-OBJECT  nobjects = 0;			/* # of objects */
+THREADPRIVATE OBJREC  *objblock[MAXOBJBLK];		/* our objects */
+THREADPRIVATE OBJECT  nobjects = 0;			/* # of objects */
 
 
 void

@@ -32,7 +32,7 @@ static OBJREC  *fobj = NULL;	/* current function object */
 static RAY  *fray = NULL;	/* current function ray */
 #pragma omp threadprivate (fobj, fray, REFVNAME)
 
-static char  rayinitcal[] = INITFILE;
+THREADPRIVATE static char  rayinitcal[] = INITFILE;
 
 static double  l_erf(char *), l_erfc(char *), l_arg(char *);
 

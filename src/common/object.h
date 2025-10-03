@@ -64,8 +64,16 @@ typedef struct {
 #endif
 #endif
 
-extern OBJREC  *objblock[MAXOBJBLK];	/* the object blocks */
-extern OBJECT  nobjects;		/* # of objects */
+#ifndef THREADPRIVATE
+#ifndef _OPENMP
+#define THREADPRIVATE
+#else
+#define THREADPRIVATE __declspec(thread)
+#endif
+#endif
+
+extern THREADPRIVATE OBJREC  *objblock[MAXOBJBLK];	/* the object blocks */
+extern THREADPRIVATE OBJECT  nobjects;		/* # of objects */
 
 #define  OBJBLKSHFT	11
 #define  OBJBLKSIZ	(1<<OBJBLKSHFT)	/* object block size */
