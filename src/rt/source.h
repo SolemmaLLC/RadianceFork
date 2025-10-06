@@ -134,10 +134,18 @@ typedef union {
 	SOBJECT  *of;		/* object functions */
 } SRCFUNC;		/* source functions */
 
-extern SRCFUNC  sfun[];			/* source dispatch table */
+#ifndef THREADPRIVATE
+#ifndef _OPENMP
+#define THREADPRIVATE
+#else
+#define THREADPRIVATE __declspec(thread)
+#endif
+#endif
 
-extern SRCREC  *source;			/* our source list */
-extern int  nsources;			/* the number of sources */
+extern THREADPRIVATE SRCFUNC  sfun[];			/* source dispatch table */
+
+extern THREADPRIVATE SRCREC  *source;			/* our source list */
+extern THREADPRIVATE int  nsources;			/* the number of sources */
 
 #define  sflatform(sn,dir)	-DOT(source[sn].snorm, dir)
 

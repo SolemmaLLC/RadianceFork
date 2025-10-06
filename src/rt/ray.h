@@ -95,15 +95,7 @@ extern char	VersionID[];	/* Radiance version ID string */
 extern char	RFeatureList[];	/* newline-separated feature list */
 
 extern CUBE	thescene;	/* our scene */
-extern OBJECT	nsceneobjs;	/* number of objects in our scene */
-
-#ifndef THREADPRIVATE
-	#ifndef _OPENMP
-	#define THREADPRIVATE
-	#else
-	#define THREADPRIVATE __declspec(thread)
-	#endif
-#endif
+extern THREADPRIVATE OBJECT	nsceneobjs;	/* number of objects in our scene */
 
 extern THREADPRIVATE RNUMBER	raynum;		/* next ray ID */
 extern THREADPRIVATE RNUMBER	nrays;		/* total rays traced so far */

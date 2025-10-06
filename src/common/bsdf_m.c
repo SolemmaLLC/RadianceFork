@@ -28,7 +28,7 @@ static const char RCSid[] = "$Id: bsdf_m.c,v 3.46 2022/07/14 02:52:02 greg Exp $
 #define RC_INTERR	(-4)
 #define RC_MEMERR	(-5)
 
-ANGLE_BASIS	abase_list[MAXABASES] = {
+THREADPRIVATE ANGLE_BASIS	abase_list[MAXABASES] = {
 	{
 		"LBNL/Klems Full", 145,
 		{ {0., 1},
@@ -62,10 +62,10 @@ ANGLE_BASIS	abase_list[MAXABASES] = {
 	}
 };
 
-int		nabases = 3;		/* current number of defined bases */
+THREADPRIVATE int		nabases = 3;		/* current number of defined bases */
 
-C_COLOR		mtx_RGB_prim[3];	/* our RGB primaries  */
-float		mtx_RGB_coef[3];	/* corresponding Y coefficients */
+THREADPRIVATE C_COLOR		mtx_RGB_prim[3];	/* our RGB primaries  */
+THREADPRIVATE float		mtx_RGB_coef[3];	/* corresponding Y coefficients */
 
 enum {mtx_Y, mtx_X, mtx_Z};		/* matrix components (mtx_Y==0) */
 

@@ -21,16 +21,16 @@ static const char	RCSid[] = "$Id: srcsupp.c,v 2.25 2024/08/07 18:33:33 greg Exp 
 
 #define SRCINC		32		/* realloc increment for array */
 
-SRCREC  *source = NULL;			/* our list of sources */
-int  nsources = 0;			/* the number of sources */
+THREADPRIVATE SRCREC  *source = NULL;			/* our list of sources */
+THREADPRIVATE int  nsources = 0;			/* the number of sources */
 
-SRCFUNC  sfun[NUMOTYPE];		/* source dispatch table */
+THREADPRIVATE SRCFUNC  sfun[NUMOTYPE];		/* source dispatch table */
 
 
 void
 initstypes(void)			/* initialize source dispatch table */
 {
-	extern VSMATERIAL  mirror_vs, direct1_vs, direct2_vs;
+	THREADPRIVATE extern VSMATERIAL  mirror_vs, direct1_vs, direct2_vs;
 	static SOBJECT  fsobj = {fsetsrc, flatpart, fgetplaneq, fgetmaxdisk};
 	static SOBJECT  ssobj = {ssetsrc, nopart};
 	static SOBJECT  sphsobj = {sphsetsrc, nopart};

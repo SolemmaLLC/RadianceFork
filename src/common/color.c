@@ -439,6 +439,8 @@ tempbuffer(			/* get a temporary buffer */
 {
 	static void	*tempbuf = NULL;
 	static size_t	tempbuflen = 0;
+#pragma omp threadprivate (tempbuf, tempbuflen)
+
 
 	if (!len) {		/* call to free */
 		if (tempbuflen) {
