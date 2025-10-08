@@ -18,9 +18,8 @@ static const char RCSid[] = "$Id: raytrace.c,v 2.97 2025/06/20 23:21:33 greg Exp
 
 #define  MAXCSET	((MAXSET+1)*2-1)	/* maximum check set size */
 
-RNUMBER  raynum = 0;		/* next unique ray number */
-RNUMBER  nrays = 0;		/* number of calls to localhit */
-#pragma omp threadprivate (raynum, nrays)
+THREADPRIVATE RNUMBER  raynum = 0;		/* next unique ray number */
+THREADPRIVATE RNUMBER  nrays = 0;		/* number of calls to localhit */
 
 static RREAL  Lambfa[5] = {PI, PI, PI, 0.0, 0.0};
 OBJREC  Lamb = {
