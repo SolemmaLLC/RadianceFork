@@ -44,7 +44,7 @@ struct EdgeCache {
 		short	signum;		/* signed volume */
 	}		cache[EDGE_CACHE_SIZ];
 }	edge_cache;
-
+#pragma omp threadprivate (edge_cache)
 
 static void
 prep_edge_cache(o)		/* get instance and clear edge cache */

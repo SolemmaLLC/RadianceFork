@@ -15,6 +15,12 @@ OCTREE  *octblock[MAXOBLK];		/* our octree */
 static OCTREE  ofreelist = EMPTY;	/* freed octree nodes */
 static OCTREE  treetop = 0;		/* next free node */
 
+OCTREE set_treetop(OCTREE tt);
+
+OCTREE set_treetop(const OCTREE tt) {
+	treetop = tt;
+	return treetop;
+}
 
 OCTREE
 octalloc()			/* allocate an octree */

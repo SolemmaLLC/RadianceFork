@@ -28,6 +28,7 @@ getpath	/* expand fname, return full path */
 )
 {
 	static char  pname[PATH_MAX];
+#pragma omp threadprivate (pname)
 	char uname[512];
 	char  *cp;
 	int i;
