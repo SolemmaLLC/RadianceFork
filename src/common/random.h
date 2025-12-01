@@ -47,6 +47,7 @@ extern void	multisamp(double t[], int n, double r);
 // threadsafe random numbers for windows
 extern void srand_mp(int i);
 extern int rand_mp();
+extern void reset_rand_mp();
 
 
 #ifdef __cplusplus
