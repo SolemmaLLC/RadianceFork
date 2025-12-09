@@ -34,7 +34,15 @@ extern struct erract {
 				{"consistency - ", eputs, -1}, \
 				{"", NULL, 0}	}
 
-extern char  errmsg[];			/* global buffer for error messages */
+#ifndef THREADPRIVATE
+#ifndef _OPENMP
+#define THREADPRIVATE
+#else
+#define THREADPRIVATE __declspec(thread)
+#endif
+#endif
+
+extern THREADPRIVATE char  errmsg[];			/* global buffer for error messages */
 
 					/* custom version of assert(3) */
 #define  CHECK(be,et,em)	if (be) error(et,em); else
