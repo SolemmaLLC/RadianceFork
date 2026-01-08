@@ -13,11 +13,10 @@ extern "C" {
 
 
 #if defined(_WIN32) || defined(_WIN64)
-#define RAND_MAX_MP 714025
 
 #define random()	rand_mp()
-#define srandom(s)	srand_mp((int)(s))
-#define frandom()	((double)rand_mp()*(1./(RAND_MAX_MP+.5)))
+#define srandom(s)	srand_mp((unsigned long long)(s))
+#define frandom()	drand_mp()
 
 #else
 
@@ -45,9 +44,9 @@ extern int	urind(int s, int i);
 extern void	multisamp(double t[], int n, double r);
 
 // threadsafe random numbers for windows
-extern void srand_mp(int i);
+extern void srand_mp(unsigned long long i);
 extern int rand_mp();
-extern void reset_rand_mp();
+extern double drand_mp();
 
 
 #ifdef __cplusplus
