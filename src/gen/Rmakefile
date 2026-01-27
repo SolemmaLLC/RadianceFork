@@ -1,4 +1,4 @@
-# RCSid: $Id: Rmakefile,v 2.51 2025/05/15 16:36:43 greg Exp $
+# RCSid: $Id$
 #
 # Makefile for object generation programs
 #
@@ -102,6 +102,9 @@ loadEPW.o -lrtrad $(MLIB)
 genglaze: genglaze.o
 	$(CC) $(CFLAGS) -o genglaze genglaze.o -lrtrad $(MLIB)
 
+testEPW:	loadEPW.c loadEPW.h
+	$(CC) $(CFLAGS) -DTEST_MAIN -o testEPW loadEPW.c $(MLIB)
+
 mksource.o:	../common/random.h ../rt/ray.h ../common/octree.h \
 ../common/object.h ../common/color.h \
 ../common/standard.h ../common/rtmisc.h ../common/rtio.h \
@@ -148,6 +151,6 @@ genssky.o:	../common/rtio.h ../common/rtmath.h \
 
 genssky.o gensdaymtx.o:	atmos.h loadEPW.h
 
-atmos.o:	../common/rtio.h ../common/rtmath.h ../common/color.h \
+atmos.o:	atmos.c ../common/rtio.h ../common/rtmath.h ../common/color.h \
 ../common/data.h sun.h
 	$(CC) $(CFLAGS) $(PTHD) -c atmos.c

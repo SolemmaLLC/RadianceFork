@@ -255,29 +255,9 @@ rmx_load_double(rmx_dtype *drp, const RMATRIX *rm, FILE *fp)
 	return(1);
 }
 
-static int
-rmx_load_rgbe(rmx_dtype *drp, const RMATRIX *rm, FILE *fp)
-{
-	COLR	*scan;
-	COLOR	col;
-	int	j;
-
-	if (rm->ncomp != 3)
-		return(0);
-	scan = (COLR *)tempbuffer(sizeof(COLR)*rm->ncols);
-	if (!scan)
-		return(0);
-	if (freadcolrs(scan, rm->ncols, fp) < 0)
-		return(0);
-	for (j = 0; j < rm->ncols; j++) {
-		colr_color(col, scan[j]);
-		*drp++ = colval(col,RED);
-		*drp++ = colval(col,GRN);
-		*drp++ = colval(col,BLU);
-	}
-	return(1);
-}
-
+#if DTrmx_native==DTfloat
+#define rmx_load_spec(dp,rm,fp)	(freadsscan(dp,(rm)->ncomp,(rm)->ncols,fp) >= 0)
+#else
 static int
 rmx_load_spec(rmx_dtype *drp, const RMATRIX *rm, FILE *fp)
 {
@@ -299,6 +279,7 @@ rmx_load_spec(rmx_dtype *drp, const RMATRIX *rm, FILE *fp)
 	}
 	return(1);
 }
+#endif
 
 /* Read matrix header from input stream (cannot be XML) */
 int
@@ -345,7 +326,6 @@ rmx_load_row(rmx_dtype *drp, const RMATRIX *rm, FILE *fp)
 		return(rmx_load_double(drp, rm, fp));
 	case DTrgbe:
 	case DTxyze:
-		return(rmx_load_rgbe(drp, rm, fp));
 	case DTspec:
 		return(rmx_load_spec(drp, rm, fp));
 	default:
@@ -518,6 +498,9 @@ rmx_write_rgbe(const rmx_dtype *dp, int ncomp, int len, FILE *fp)
 	return(fwritecolrs(scan, len, fp) >= 0);
 }
 
+#if DTrmx_native==DTfloat
+#define rmx_write_spec(dp,nc,ln,fp)	(fwritesscan(dp,nc,ln,fp) >= 0)
+#else
 static int
 rmx_write_spec(const rmx_dtype *dp, int ncomp, int len, FILE *fp)
 {
@@ -535,6 +518,7 @@ rmx_write_spec(const rmx_dtype *dp, int ncomp, int len, FILE *fp)
 	}
 	return(fwritescolrs(scan, ncomp, len, fp) >= 0);
 }
+#endif
 
 /* Check if CIE XYZ primaries were specified */
 static int
@@ -822,9 +806,10 @@ RMATRIX *
 rmx_multiply(const RMATRIX *m1, const RMATRIX *m2)
 {
 	RMATRIX	*mres;
+	double	val[MAXCOMP];
 	int	i, j, k, h;
 
-	if (!m1 | !m2 || !m1->mtx | !m2->mtx |
+	if (!m1 | !m2 || !m1->mtx | !m2->mtx | (m1->ncomp > MAXCOMP) |
 			(m1->ncomp != m2->ncomp) | (m1->ncols != m2->nrows))
 		return(NULL);
 	mres = rmx_alloc(m1->nrows, m2->ncols, m1->ncomp);
@@ -836,14 +821,17 @@ rmx_multiply(const RMATRIX *m1, const RMATRIX *m2)
 	else
 		rmx_addinfo(mres, rmx_mismatch_warn);
 	for (i = mres->nrows; i--; )
-	    for (j = mres->ncols; j--; )
-	        for (k = mres->ncomp; k--; ) {
-		    double	d = 0;
-		    for (h = m1->ncols; h--; )
-			d += (double)rmx_val(m1,i,h)[k] *
-					rmx_val(m2,h,j)[k];
-		    rmx_lval(mres,i,j)[k] = (rmx_dtype)d;
+	    for (j = mres->ncols; j--; ) {
+		memset(val, 0, sizeof(double)*mres->ncomp);
+		for (h = m1->ncols; h--; ) {
+		    const rmx_dtype	*p1 = rmx_val(m1,i,h);
+		    const rmx_dtype	*p2 = rmx_val(m2,h,j);
+		    for (k = 0; k < mres->ncomp; k++)
+			val[k] += (double)*p1++ * *p2++;
 		}
+		for (k = mres->ncomp; k--; )
+		    rmx_lval(mres,i,j)[k] = (rmx_dtype)val[k];
+	    }
 	return(mres);
 }
 
