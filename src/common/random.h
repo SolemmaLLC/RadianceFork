@@ -13,9 +13,9 @@ extern "C" {
 
 #if defined(_WIN32) || defined(_WIN64)
 
-#define random()	rand_mp()
-#define srandom(s)	srand_mp((unsigned long long)(s))
-#define frandom()	drand_mp()
+extern void	srandom(unsigned long s);
+extern long	random(void);
+extern double	frandom(void);
 
 #else
 
@@ -41,11 +41,6 @@ extern int	ilhash(int *d, int n);
 extern int	urind(int s, int i);
 				/* defined in multisamp.c */
 extern void	multisamp(double t[], int n, double r);
-
-// threadsafe random numbers for windows
-extern void srand_mp(unsigned long long i);
-extern int rand_mp();
-extern double drand_mp();
 
 
 #ifdef __cplusplus
