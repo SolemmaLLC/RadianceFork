@@ -11,7 +11,6 @@
 extern "C" {
 #endif
 
-
 #if defined(_WIN32) || defined(_WIN64)
 
 #define random()	rand_mp()

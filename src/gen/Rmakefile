@@ -41,7 +41,7 @@ genbox:	genbox.o
 	$(CC) $(CFLAGS) -o genbox genbox.o -lwfobj -lrtrad $(MLIB)
 
 genmarble:	genmarble.o ../common/random.h
-	$(CC) $(CFLAGS) -o genmarble genmarble.o $(MLIB)
+	$(CC) $(CFLAGS) -o genmarble genmarble.o -lrtrad $(MLIB)
 
 gensky:	gensky.o sun.o
 	$(CC) $(CFLAGS) -o gensky gensky.o sun.o -lrtrad $(MLIB)
@@ -88,7 +88,7 @@ genclock:	genclock.o
 	$(CC) $(CFLAGS) -o genclock genclock.o $(MLIB)
 
 genbranch:	genbranch.o
-	$(CC) $(CFLAGS) -o genbranch genbranch.o $(MLIB)
+	$(CC) $(CFLAGS) -o genbranch genbranch.o -lrtrad $(MLIB)
 
 # Assume rt is built before this
 genssky:	genssky.o sun.o atmos.o

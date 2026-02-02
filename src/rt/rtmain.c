@@ -93,9 +93,7 @@ main(int  argc, char  *argv[])
 				goto badopt
 #define	 check_bool(olen,var)		switch (argv[i][olen]) { \
 				case '\0': var = !var; break; \
-				case 'y': case 'Y': case 't': case 'T': \
 				case '+': case '1': var = 1; break; \
-				case 'n': case 'N': case 'f': case 'F': \
 				case '-': case '0': var = 0; break; \
 				default: goto badopt; }
 	extern char  *octname;
@@ -424,9 +422,10 @@ main(int  argc, char  *argv[])
 		fputnow(stdout);
 		if (rval > 0)		/* saved from setrtoutput() call */
 			fputncomp(rval, stdout);
-		if (NCSAMP > 3)
-			fputwlsplit(WLPART, stdout);
-		if ((out_prims != stdprims) & (out_prims != NULL))
+		if (out_prims == NULL) {
+			if (sens_curve == NULL)
+				fputwlsplit(WLPART, stdout);
+		} else if (out_prims != stdprims)
 			fputprims(out_prims, stdout);
 		if ((outform == 'f') | (outform == 'd'))
 			fputendian(stdout);
