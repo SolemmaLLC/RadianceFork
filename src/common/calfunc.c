@@ -33,9 +33,9 @@ typedef struct activation {
     EPNODE* fun;		/* argument function */
 }  ACTIVATION;		/* an activation record */
 
-static ACTIVATION  *curact = NULL;
-static unsigned long  curdepth = 0, next_dreport = 100;
-#pragma omp threadprivate (curact, curdepth, next_dreport)
+THREADPRIVATE static ACTIVATION  *curact = NULL;
+THREADPRIVATE static unsigned long  curdepth = 0;
+static unsigned long next_dreport = 100;
 
 static double  libfunc(char *fname, VARDEF *vp);
 static void  report_depth(char *nm);

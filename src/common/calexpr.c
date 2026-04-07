@@ -79,12 +79,11 @@ double	(*eoper[])(EPNODE *) = {	/* expression operations */
 	epow,
 };
 
-static FILE  *infp;			/* input file pointer */
-static char  *linbuf;			/* line buffer */
-static char  *infile;			/* input file name */
-static int  lineno;			/* input line number */
-static int  linepos;			/* position in buffer */
-#pragma omp threadprivate (infp, linbuf, infile, lineno, linepos)
+THREADPRIVATE static FILE  *infp;			/* input file pointer */
+THREADPRIVATE static char  *linbuf;			/* line buffer */
+THREADPRIVATE static char  *infile;			/* input file name */
+THREADPRIVATE static int  lineno;			/* input line number */
+THREADPRIVATE static int  linepos;			/* position in buffer */
 
 EPNODE *
 eparse(			/* parse an expression string */
@@ -444,8 +443,7 @@ initfile(		/* prepare input file */
     int  ln
 )
 {
-    static char	 inpbuf[MAXLINE];
-#pragma omp threadprivate (inpbuf)
+    THREADPRIVATE static char	 inpbuf[MAXLINE];
     infp = fp;
     linbuf = inpbuf;
     infile = fn;
@@ -528,8 +526,7 @@ long2ascii(			      /* convert long to ascii */
     long  l
 )
 {
-    static char	 buf[16];
-#pragma omp threadprivate (buf)
+    THREADPRIVATE static char	 buf[16];
     char  *cp;
     int	 neg = 0;
 
@@ -603,8 +600,7 @@ addekid(			/* add a child to ep */
 char *
 getname(void)			/* scan an identifier */
 {
-    static char	 str[RMAXWORD+1];
-#pragma omp threadprivate (str)
+    THREADPRIVATE static char	 str[RMAXWORD+1];
     int  i, lnext;
 
     lnext = nextc;

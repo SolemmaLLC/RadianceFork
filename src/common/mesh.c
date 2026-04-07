@@ -26,8 +26,7 @@ typedef struct {
 
 #define  IO_LEGAL	(IO_BOUNDS|IO_TREE|IO_SCENE)
 
-static MESH	*mlist = NULL;		/* list of loaded meshes */
-#pragma omp threadprivate (mlist)
+THREADPRIVATE static MESH	*mlist = NULL;		/* list of loaded meshes */
 
 static unsigned long
 cvhash(const char *p)			/* hash an encoded vertex */

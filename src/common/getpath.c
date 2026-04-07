@@ -13,6 +13,10 @@ static const char	RCSid[] = "$Id: getpath.c,v 2.24 2025/06/07 05:09:45 greg Exp 
 
 #include  "paths.h"
 
+#ifndef THREADPRIVATE
+#define THREADPRIVATE __declspec(thread)
+#endif
+
 
 #if defined(_WIN32) || defined(_WIN64)
 static char *
@@ -27,8 +31,7 @@ getpath	/* expand fname, return full path */
 	int  mode
 )
 {
-	static char  pname[PATH_MAX];
-#pragma omp threadprivate (pname)
+	THREADPRIVATE static char  pname[PATH_MAX];
 	char uname[512];
 	char  *cp;
 	int i;

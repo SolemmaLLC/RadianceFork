@@ -1,4 +1,3 @@
-
 #ifndef lint
 static const char	RCSid[] = "$Id$";
 #endif
@@ -47,22 +46,21 @@ static double  dvalue(char  *name, EPNODE *d);
 
 #define  MAXCLOCK	(1L<<31)	/* clock wrap value */
 
-THREADPRIVATE unsigned long  eclock = 0;		/* value storage timer */
+unsigned long  eclock = 0;		/* value storage timer */
 
 #define  MAXCNTX	1023		/* maximum context length */
 
 static char  context[MAXCNTX+1];	/* current context path */
 
-VARDEF  *hashtbl[NHASH];		/* definition list */
-static int  htndx;			/* index for */		
+static VARDEF  *hashtbl[NHASH];		/* definition list */
+static int  htndx;			/* index for */
 static VARDEF  *htpos;			/* ...dfirst() and */
 static EPNODE  *ochpos;			/* ...dnext */
 static EPNODE  *outchan;
 
 static int  optimized = 0;		/* are we optimized? */
 
-THREADPRIVATE EPNODE	*ecurfunc = NULL;
-#pragma omp threadprivate (context, htndx, htpos, ochpos, outchan, hashtbl)
+EPNODE	*ecurfunc = NULL;
 
 
 void
@@ -71,6 +69,7 @@ fcompile(			/* get definitions from a file */
 )
 {
     FILE  *fp;
+
     if (fname == NULL)
 	fp = stdin;
     else if ((fp = fopen(fname, "r")) == NULL) {
@@ -121,6 +120,7 @@ evariable(			/* evaluate a variable */
 )
 {
     VARDEF  *dp = ep->v.ln;
+
     return(dvalue(dp->name, dp->def));
 }
 
@@ -292,7 +292,6 @@ qualname(		/* get qualified name */
 )
 {
     static char	 nambuf[MAXCNTX+RMAXWORD+1];
-#pragma omp threadprivate (nambuf)
     char  *cp = nambuf, *cpp;
 				/* check for explicit local */
     if (*nam == CNTXMARK) {
@@ -406,7 +405,7 @@ dlookup(			/* look up a definition */
 )
 {
     VARDEF  *vp;
-    
+
     if ((vp = varlookup(name)) == NULL)
 	return(NULL);
     return(vp->def);
@@ -437,7 +436,7 @@ varinsert(			/* get a link to a variable */
 {
     VARDEF  *vp;
     int	 hv;
-    
+
     if ((vp = varlookup(name)) != NULL) {
 	vp->nlinks++;
 	return(vp);
@@ -536,7 +535,7 @@ dpop(			/* pop a definition */
 {
     VARDEF  *vp;
     EPNODE  *dp;
-    
+
     if ((vp = varlookup(name)) == NULL || vp->def == NULL)
 	return(NULL);
     dp = vp->def;
@@ -740,7 +739,7 @@ static double			/* evaluate a variable */
 dvalue(char *name, EPNODE *d)
 {
     EPNODE  *ep1, *ep2;
-    
+
     if (d == NULL || d->v.kid->type != SYM) {
 	eputs(name);
 	eputs(": undefined variable\n");
@@ -762,6 +761,7 @@ dvalue(char *name, EPNODE *d)
 	ep2 = ep2->sibling;
 	ep2->v.num = evalue(ep1);		/* needs new value */
     } else
-    ep2 = ep2->sibling;			/* else reuse old value */
+	ep2 = ep2->sibling;			/* else reuse old value */
+
     return(ep2->v.num);
 }

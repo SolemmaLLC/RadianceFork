@@ -27,12 +27,11 @@ XF  unitxf = {			/* identity transform */
 	1.0
 };
 
-THREADPRIVATE XF  funcxf;			/* current transformation */
+XF  funcxf;			/* current transformation */
 static OBJREC  *fobj = NULL;	/* current function object */
 static RAY  *fray = NULL;	/* current function ray */
-#pragma omp threadprivate (fobj, fray, REFVNAME)
 
-THREADPRIVATE static char  rayinitcal[] = INITFILE;
+static char  rayinitcal[] = INITFILE;
 
 static double  l_erf(char *), l_erfc(char *), l_arg(char *);
 
@@ -70,7 +69,6 @@ void
 set_eparams(const char *prms)
 {
 	static const char	*last_params = NULL;
-#pragma omp threadprivate (last_params)
 	char			vname[RMAXWORD];
 	double			value;
 	char			*cpd;
@@ -230,12 +228,11 @@ setfunc(			/* set channels for function call */
 )
 {
 	static RNUMBER	lastrno = ~0;
-#pragma omp threadprivate (lastrno)
 	MFUNC		*f;
 					/* get function if any */
 	if ((f = (MFUNC *)m->os) == NULL)
 		objerror(m, CONSISTENCY, "setfunc called before getfunc");
-		
+
 	calcontext(f->ctx);		/* set evaluator context */
 					/* check to see if matrix set */
 	if ((m == fobj) & (r->rno == lastrno))
@@ -289,7 +286,6 @@ loadfunc(			/* load definition file */
 		error(SYSTEM, errmsg);
 	}
 	fcompile(ffname);
-	doptimize(1);		/* optimize definitions */
 }
 
 

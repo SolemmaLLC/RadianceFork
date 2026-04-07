@@ -38,8 +38,7 @@ typedef struct s_head {
 	int  nl;			/* links count */
 }  S_HEAD;				/* followed by the string itself */
 
-static S_HEAD  *stab[NHASH];
-#pragma omp threadprivate (stab)
+THREADPRIVATE static S_HEAD  *stab[NHASH];
 
 #define  hash(s)	(shash(s)%NHASH)
 

@@ -39,7 +39,6 @@ typedef struct {
 static CONTRIB  *srccnt = NULL;		/* source contributions in direct() */
 static CNTPTR  *cntord = NULL;		/* source ordering in direct() */
 static int  maxcntr = 0;		/* size of contribution arrays */
-#pragma omp threadprivate (srccnt, cntord, maxcntr)
 
 static int cntcmp(const void *p1, const void *p2);
 
@@ -58,7 +57,7 @@ marksources(void)			/* find and mark source objects */
 	initstypes();
 					/* find direct sources */
 	for (i = 0; i < nsceneobjs; i++) {
-	
+
 		o = objptr(i);
 
 		if (!issurface(o->otype) || o->omod == OVOID)
@@ -73,7 +72,7 @@ marksources(void)			/* find and mark source objects */
 		}
 		if (!islight(m->otype))
 			continue;	/* not source modifier */
-	
+
 		if (m->oargs.nfargs != (m->otype == MAT_GLOW ? 4 :
 				m->otype == MAT_SPOT ? 7 : 3))
 			objerror(m, USER, "bad # arguments");
@@ -131,7 +130,7 @@ marksources(void)			/* find and mark source objects */
 	/* PMAP: disable virtual sources */
 	if (!photonMapping)
 		markvirtuals();			/* find and add virtual sources */
-		
+
 				/* allocate our contribution arrays */
 	maxcntr += MAXSPART;	/* start with this many */
 	srccnt = (CONTRIB *)malloc(maxcntr*sizeof(CONTRIB));
@@ -156,7 +155,7 @@ distantsources(void)			/* only mark distant sources */
 	initstypes();
 					/* sources needed for sourcehit() */
 	for (i = 0; i < nsceneobjs; i++) {
-	
+
 		o = objptr(i);
 
 		if ((o->otype != OBJ_SOURCE) | (o->omod == OVOID))
@@ -167,7 +166,7 @@ distantsources(void)			/* only mark distant sources */
 			continue;
 		if (!islight(m->otype))
 			continue;	/* not source modifier */
-	
+
 		if (m->oargs.nfargs != (m->otype == MAT_GLOW ? 4 :
 				m->otype == MAT_SPOT ? 7 : 3))
 			objerror(m, USER, "bad # arguments");
@@ -409,10 +408,10 @@ direct(					/* add direct component */
 	int  nhits;
 	double  prob, ourthresh, hwt;
 	RAY  sr;
-	
+
 	/* PMAP: Factor in direct photons (primarily for debugging/validation) */
 	if (directPhotonMapping) {
-		(*f)(r -> rcol, p, r -> ron, PI);		
+		(*f)(r -> rcol, p, r -> ron, PI);
 		multDirectPmap(r);
 		return;
 	}
@@ -576,7 +575,7 @@ srcscatter(			/* compute source scattering into ray */
 	/* PMAP: do unconditional inscattering for volume photons */
 	if (!volumePhotonMapping && (r->slights == NULL || r->slights[0] == 0))
 		return;
-		
+
 	if (ssampdist <= FTINY || (nsamps = r->rot/ssampdist + .5) < 1)
 		nsamps = 1;
 #if MAXSSAMP
@@ -602,7 +601,7 @@ srcscatter(			/* compute source scattering into ray */
 			sr.rorg[0] = r->rorg[0] + r->rdir[0]*t;
 			sr.rorg[1] = r->rorg[1] + r->rdir[1]*t;
 			sr.rorg[2] = r->rorg[2] + r->rdir[2]*t;
-			
+
 			if (!volumePhotonMapping) {
 				sr.parent = r;		/* hack for preemptive test */
 				if (srcskip(r->slights[i], &sr))
@@ -640,7 +639,7 @@ srcscatter(			/* compute source scattering into ray */
 				scalescolor(sr.rcol, d);
 			} else {
 				/* PMAP: Add ambient inscattering from
-				 * volume photons; note we reverse the 
+				 * volume photons; note we reverse the
 				 * incident ray direction since we're
 				 * now in *backward* raytracing mode! */
 				sr.rdir [0] = -r -> rdir [0];
@@ -719,7 +718,7 @@ weaksrcmat(OBJREC *m)		/* identify material */
  */
 /* PMAP: Also avoid counting sources via transferred ambient rays (e.g.
  * through glass) when photon mapping is enabled, as these indirect
- * components are already accounted for. 
+ * components are already accounted for.
  */
 #define  badcomponent(m, r)   (srcRayInPmap(r) || \
 				(r->crtype&(AMBIENT|SPECULAR) && \

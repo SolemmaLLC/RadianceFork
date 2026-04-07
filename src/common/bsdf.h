@@ -58,11 +58,7 @@ typedef enum {SDEnone=0, SDEmemory, SDEfile, SDEformat, SDEargument,
 extern const char	*SDerrorEnglish[];
 
 #ifndef THREADPRIVATE
-#ifndef _OPENMP
-#define THREADPRIVATE
-#else
 #define THREADPRIVATE __declspec(thread)
-#endif
 #endif
 
 /* Pointer to error list in preferred language */

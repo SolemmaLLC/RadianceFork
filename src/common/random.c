@@ -20,8 +20,11 @@ static const char RCSid[] = "$Id$";
 #include <stdint.h>
 #include "random.h"
 
-static uint64_t		rand_state = 0x853c49e6748fea9bULL;
-#pragma omp threadprivate(rand_state)
+#ifndef THREADPRIVATE
+#define THREADPRIVATE __declspec(thread)
+#endif
+
+THREADPRIVATE static uint64_t		rand_state = 0x853c49e6748fea9bULL;
 
 /* SplitMix64 for seeding */
 static uint64_t

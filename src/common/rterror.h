@@ -35,11 +35,7 @@ extern struct erract {
 				{"", NULL, 0}	}
 
 #ifndef THREADPRIVATE
-#ifndef _OPENMP
-#define THREADPRIVATE
-#else
 #define THREADPRIVATE __declspec(thread)
-#endif
 #endif
 
 extern THREADPRIVATE char  errmsg[];			/* global buffer for error messages */

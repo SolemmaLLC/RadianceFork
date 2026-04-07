@@ -96,13 +96,12 @@ dirbrdf(		/* compute source contribution */
 	COLOR  ctmp;
 	FVECT  ldx;
 	static double  vldx[5], pt[MAXDDIM];
-#pragma omp threadprivate (vldx, pt)
 	char	**sa;
 	int	i;
 #define lddx (vldx+1)
 
 	scolorblack(scval);
-	
+
 	ldot = DOT(np->pnorm, ldir);
 
 	if (ldot <= FTINY && ldot >= -FTINY)
@@ -267,8 +266,8 @@ m_brdf(			/* color a ray that hit a BRDTfunc material */
 	setbrdfunc(&nd);
 	errno = 0;
 	setscolor(sctmp, evalue(mf->ep[3]),
-		evalue(mf->ep[4]),
-		evalue(mf->ep[5]));
+			evalue(mf->ep[4]),
+			evalue(mf->ep[5]));
 	if ((errno == EDOM) | (errno == ERANGE))
 		objerror(m, WARNING, "compute error");
 	else if (rayorigin(&sr, TRANS, r, sctmp) == 0) {
@@ -293,7 +292,7 @@ m_brdf(			/* color a ray that hit a BRDTfunc material */
 	if (r->crtype & SHADOW)			/* the rest is shadow */
 		return(1);
 
-	/* compute reflected ray */
+						/* compute reflected ray */
 	setbrdfunc(&nd);
 	errno = 0;
 	setscolor(sctmp, evalue(mf->ep[0]),

@@ -80,11 +80,7 @@ typedef struct {
 } ANGLE_BASIS;
 
 #ifndef THREADPRIVATE
-#ifndef _OPENMP
-#define THREADPRIVATE
-#else
 #define THREADPRIVATE __declspec(thread)
-#endif
 #endif
 
 #define	MAXABASES	7		/* limit on defined bases */

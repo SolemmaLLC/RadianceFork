@@ -73,11 +73,7 @@ typedef struct epnode {
 #define  E_REDEFW	040
 
 #ifndef THREADPRIVATE
-#ifndef _OPENMP
-#define THREADPRIVATE
-#else
 #define THREADPRIVATE __declspec(thread)
-#endif
 #endif
 
 extern double  (*eoper[])(EPNODE *);
