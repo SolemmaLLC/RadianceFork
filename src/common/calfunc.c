@@ -33,8 +33,8 @@ typedef struct activation {
     EPNODE* fun;		/* argument function */
 }  ACTIVATION;		/* an activation record */
 
-THREADPRIVATE static ACTIVATION  *curact = NULL;
-THREADPRIVATE static unsigned long  curdepth = 0;
+THREADLOCAL static ACTIVATION  *curact = NULL;
+THREADLOCAL static unsigned long  curdepth = 0;
 static unsigned long next_dreport = 100;
 
 static double  libfunc(char *fname, VARDEF *vp);

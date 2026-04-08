@@ -106,11 +106,11 @@ static const char	RCSid[] = "$Id: raycalls.c,v 2.34 2025/06/20 03:43:17 greg Exp
 char	*octname;			/* octree name we are given */
 
 CUBE	thescene;			/* our scene */
-THREADPRIVATE OBJECT	nsceneobjs;			/* number of objects in our scene */
+THREADLOCAL OBJECT	nsceneobjs;			/* number of objects in our scene */
 
 int	dimlist[MAXDIM];		/* sampling dimensions */
-THREADPRIVATE int	ndims = 0;			/* number of sampling dimensions */
-THREADPRIVATE unsigned long	samplendx = 0;		/* index for this sample */
+THREADLOCAL int	ndims = 0;			/* number of sampling dimensions */
+THREADLOCAL unsigned long	samplendx = 0;		/* index for this sample */
 
 void	(*trace)() = NULL;		/* trace call */
 

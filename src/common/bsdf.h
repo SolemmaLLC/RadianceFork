@@ -57,15 +57,11 @@ typedef enum {SDEnone=0, SDEmemory, SDEfile, SDEformat, SDEargument,
 /* English strings corresponding to ennumerated errors */
 extern const char	*SDerrorEnglish[];
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 /* Pointer to error list in preferred language */
 extern const char	**SDerrorList;
 
 /* Additional information on last error (generally in English) */
-extern THREADPRIVATE char		SDerrorDetail[];
+extern THREADLOCAL char		SDerrorDetail[];
 
 /* Holder for BSDF value and spectral color */
 typedef struct {
@@ -136,7 +132,7 @@ typedef struct {
 } SDData;
 
 /* List of loaded BSDFs */
-extern THREADPRIVATE struct SDCache_s {
+extern THREADLOCAL struct SDCache_s {
 	SDData		bsdf;		/* BSDF data */
 	unsigned	refcnt;		/* how many callers are using us? */
 	struct SDCache_s		/* next in cache list */
@@ -148,8 +144,8 @@ extern THREADPRIVATE struct SDCache_s {
 #define	SDretainBSDFs	1		/* keep loaded BSDFs in memory */
 #define SDretainAll	2		/* also keep cumulative cache data */
 
-extern THREADPRIVATE int		SDretainSet;	/* =SDretainNone by default */
-extern THREADPRIVATE unsigned long	SDmaxCache;	/* =0 (unlimited) by default */
+extern THREADLOCAL int		SDretainSet;	/* =SDretainNone by default */
+extern THREADLOCAL unsigned long	SDmaxCache;	/* =0 (unlimited) by default */
 
 /*****************************************************************
  * The following routines are less commonly used by applications.

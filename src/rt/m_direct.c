@@ -31,8 +31,8 @@ static const char	RCSid[] = "$Id: m_direct.c,v 2.18 2024/12/03 19:36:58 greg Exp
 static int redirect(OBJREC  *m, RAY  *r, int  n);
 static int dir_proj(MAT4  pm, OBJREC  *o, SRCREC  *s, int  n);
 
-THREADPRIVATE VSMATERIAL  direct1_vs = {dir_proj, 1};
-THREADPRIVATE VSMATERIAL  direct2_vs = {dir_proj, 2};
+THREADLOCAL VSMATERIAL  direct1_vs = {dir_proj, 1};
+THREADLOCAL VSMATERIAL  direct2_vs = {dir_proj, 2};
 
 #define getdfunc(m)	( (m)->otype == MAT_DIRECT1 ? \
 				getfunc(m, 4, 0xf, 1) : \

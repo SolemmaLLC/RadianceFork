@@ -34,11 +34,7 @@ extern struct erract {
 				{"consistency - ", eputs, -1}, \
 				{"", NULL, 0}	}
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
-extern THREADPRIVATE char  errmsg[];			/* global buffer for error messages */
+extern THREADLOCAL char  errmsg[];			/* global buffer for error messages */
 
 					/* custom version of assert(3) */
 #define  CHECK(be,et,em)	if (be) error(et,em); else

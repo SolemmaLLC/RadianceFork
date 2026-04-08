@@ -72,17 +72,13 @@ typedef struct epnode {
 #define  E_RCONST	020
 #define  E_REDEFW	040
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 extern double  (*eoper[])(EPNODE *);
-extern THREADPRIVATE unsigned long  eclock;
-extern THREADPRIVATE unsigned int  esupport;
-extern THREADPRIVATE EPNODE	*ecurfunc;
-extern THREADPRIVATE int nextc;
+extern THREADLOCAL unsigned long  eclock;
+extern THREADLOCAL unsigned int  esupport;
+extern THREADLOCAL EPNODE	*ecurfunc;
+extern THREADLOCAL int nextc;
 extern int  eofc;
-extern THREADPRIVATE int  calexpr_errno;		/* used under Windows */
+extern THREADLOCAL int  calexpr_errno;		/* used under Windows */
 
 #if defined(_WIN32) || defined(_WIN64)
 #undef errno

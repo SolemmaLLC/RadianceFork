@@ -24,14 +24,10 @@ static const char	RCSid[] = "$Id: tcos.c,v 3.10 2013/07/12 05:16:02 greg Exp $";
 #define NCOSENTRY	1024
 #endif
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 double
 tcos(double x)				/* approximate cosine */
 {
-	THREADPRIVATE static double	costab[NCOSENTRY+1];
+	THREADLOCAL static double	costab[NCOSENTRY+1];
 	register int	i;
 
 	if (costab[0] < 0.5)		/* initialize table */

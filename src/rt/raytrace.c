@@ -18,8 +18,8 @@ static const char RCSid[] = "$Id$";
 
 #define  MAXCSET	((MAXSET+1)*2-1)	/* maximum check set size */
 
-THREADPRIVATE RNUMBER  raynum = 0;		/* next unique ray number */
-THREADPRIVATE RNUMBER  nrays = 0;		/* number of calls to localhit */
+THREADLOCAL RNUMBER  raynum = 0;		/* next unique ray number */
+THREADLOCAL RNUMBER  nrays = 0;		/* number of calls to localhit */
 
 static RREAL  Lambfa[5] = {PI, PI, PI, 0.0, 0.0};
 OBJREC  Lamb = {

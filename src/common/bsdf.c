@@ -39,19 +39,19 @@ const char		*SDerrorEnglish[] = {
 const char		**SDerrorList = SDerrorEnglish;
 
 /* Additional information on last error (ASCII English) */
-THREADPRIVATE char			SDerrorDetail[256];
+THREADLOCAL char			SDerrorDetail[256];
 
 /* Empty distribution for getCDist() calls that fail for some reason */
 const SDCDst		SDemptyCD;
 
 /* Cache of loaded BSDFs */
-THREADPRIVATE struct SDCache_s	*SDcacheList = NULL;
+THREADLOCAL struct SDCache_s	*SDcacheList = NULL;
 
 /* Retain BSDFs in cache list? */
-THREADPRIVATE int			SDretainSet = SDretainNone;
+THREADLOCAL int			SDretainSet = SDretainNone;
 
 /* Maximum cache size for any given BSDF? */
-THREADPRIVATE unsigned long		SDmaxCache = 0;		/* 0 == unlimited */
+THREADLOCAL unsigned long		SDmaxCache = 0;		/* 0 == unlimited */
 
 /* Report any error to the indicated stream */
 SDError

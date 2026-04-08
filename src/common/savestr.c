@@ -38,7 +38,7 @@ typedef struct s_head {
 	int  nl;			/* links count */
 }  S_HEAD;				/* followed by the string itself */
 
-THREADPRIVATE static S_HEAD  *stab[NHASH];
+THREADLOCAL static S_HEAD  *stab[NHASH];
 
 #define  hash(s)	(shash(s)%NHASH)
 

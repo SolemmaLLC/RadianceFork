@@ -27,7 +27,7 @@ static const char	RCSid[] = "$Id: m_mirror.c,v 2.25 2025/05/31 00:52:54 greg Exp
 static int mir_proj(MAT4  pm, OBJREC  *o, SRCREC  *s, int  n);
 static void mirrorproj(MAT4  m, FVECT  nv, double  offs);
 
-THREADPRIVATE VSMATERIAL  mirror_vs = {mir_proj, 1};
+THREADLOCAL VSMATERIAL  mirror_vs = {mir_proj, 1};
 
 
 int

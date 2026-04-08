@@ -20,8 +20,8 @@ static const char RCSid[] = "$Id$";
 #define OBJMEMOPT	0		/* optimize object block memory? */
 #endif
 
-THREADPRIVATE OBJREC  *objblock[MAXOBJBLK];		/* our objects */
-THREADPRIVATE OBJECT  nobjects = 0;			/* # of objects */
+THREADLOCAL OBJREC  *objblock[MAXOBJBLK];		/* our objects */
+THREADLOCAL OBJECT  nobjects = 0;			/* # of objects */
 
 
 void

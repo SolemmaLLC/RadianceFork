@@ -22,7 +22,7 @@ typedef struct {
 } MFUNC;			/* material function */
 
 extern XF  unitxf;		/* identity transform */
-extern THREADPRIVATE XF  funcxf;		/* current transform */
+extern THREADLOCAL XF  funcxf;		/* current transform */
 
 extern void	initfunc(void);
 extern void	set_eparams(const char *prms);

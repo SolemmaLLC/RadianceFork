@@ -44,12 +44,12 @@ static double  eadd(EPNODE *), esubtr(EPNODE *),
                epow(EPNODE *);
 static double  ebotch(EPNODE *);
 
-THREADPRIVATE unsigned int  esupport =		/* what to support */
+THREADLOCAL unsigned int  esupport =		/* what to support */
 		E_VARIABLE | E_FUNCTION ;
 
-int THREADPRIVATE calexpr_errno;			/* used under Windows */
+int THREADLOCAL calexpr_errno;			/* used under Windows */
 int  eofc = 0;				/* optional end-of-file character */
-THREADPRIVATE int nextc;				/* lookahead character */
+THREADLOCAL int nextc;				/* lookahead character */
 
 
 double	(*eoper[])(EPNODE *) = {	/* expression operations */
@@ -79,11 +79,11 @@ double	(*eoper[])(EPNODE *) = {	/* expression operations */
 	epow,
 };
 
-THREADPRIVATE static FILE  *infp;			/* input file pointer */
-THREADPRIVATE static char  *linbuf;			/* line buffer */
-THREADPRIVATE static char  *infile;			/* input file name */
-THREADPRIVATE static int  lineno;			/* input line number */
-THREADPRIVATE static int  linepos;			/* position in buffer */
+THREADLOCAL static FILE  *infp;			/* input file pointer */
+THREADLOCAL static char  *linbuf;			/* line buffer */
+THREADLOCAL static char  *infile;			/* input file name */
+THREADLOCAL static int  lineno;			/* input line number */
+THREADLOCAL static int  linepos;			/* position in buffer */
 
 EPNODE *
 eparse(			/* parse an expression string */
@@ -443,7 +443,7 @@ initfile(		/* prepare input file */
     int  ln
 )
 {
-    THREADPRIVATE static char	 inpbuf[MAXLINE];
+    THREADLOCAL static char	 inpbuf[MAXLINE];
     infp = fp;
     linbuf = inpbuf;
     infile = fn;
@@ -526,7 +526,7 @@ long2ascii(			      /* convert long to ascii */
     long  l
 )
 {
-    THREADPRIVATE static char	 buf[16];
+    THREADLOCAL static char	 buf[16];
     char  *cp;
     int	 neg = 0;
 
@@ -600,7 +600,7 @@ addekid(			/* add a child to ep */
 char *
 getname(void)			/* scan an identifier */
 {
-    THREADPRIVATE static char	 str[RMAXWORD+1];
+    THREADLOCAL static char	 str[RMAXWORD+1];
     int  i, lnext;
 
     lnext = nextc;

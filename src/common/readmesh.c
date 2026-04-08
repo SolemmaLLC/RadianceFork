@@ -14,9 +14,9 @@ static const char RCSid[] = "$Id: readmesh.c,v 2.19 2023/02/07 20:28:16 greg Exp
 #include  "mesh.h"
 #include  "resolu.h"
 
-THREADPRIVATE static char	*meshfn;	/* input file name */
-THREADPRIVATE static FILE	*meshfp;	/* mesh file pointer */
-THREADPRIVATE static int	objsize;	/* sizeof(OBJECT) from writer */
+THREADLOCAL static char	*meshfn;	/* input file name */
+THREADLOCAL static FILE	*meshfp;	/* mesh file pointer */
+THREADLOCAL static int	objsize;	/* sizeof(OBJECT) from writer */
 
 static void
 mesherror(etyp, msg)			/* mesh read error */

@@ -9,13 +9,9 @@ static const char	RCSid[] = "$Id: mat4.c,v 2.4 2003/02/25 02:47:21 greg Exp $";
 
 #include  "mat4.h"
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 MAT4  m4ident = MAT4IDENT;
 
-THREADPRIVATE static MAT4  m4tmp;		/* for efficiency */
+THREADLOCAL static MAT4  m4tmp;		/* for efficiency */
 
 
 void

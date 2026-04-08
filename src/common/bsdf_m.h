@@ -79,18 +79,14 @@ typedef struct {
 	} lat[MAXLATS+1];		/* latitudes */
 } ANGLE_BASIS;
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 #define	MAXABASES	7		/* limit on defined bases */
 
-extern THREADPRIVATE ANGLE_BASIS	abase_list[MAXABASES];
+extern THREADLOCAL ANGLE_BASIS	abase_list[MAXABASES];
 
-extern THREADPRIVATE int		nabases;	/* current number of defined bases */
+extern THREADLOCAL int		nabases;	/* current number of defined bases */
 
-extern THREADPRIVATE C_COLOR	mtx_RGB_prim[3];	/* matrix RGB primaries  */
-extern THREADPRIVATE float	mtx_RGB_coef[3];	/* corresponding Y coefficients */
+extern THREADLOCAL C_COLOR	mtx_RGB_prim[3];	/* matrix RGB primaries  */
+extern THREADLOCAL float	mtx_RGB_coef[3];	/* corresponding Y coefficients */
 
 /* Get color or grayscale value for BSDF in the given directions */
 extern int		mBSDF_color(float coef[], const SDMat *b, int i, int o);

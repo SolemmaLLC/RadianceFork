@@ -23,10 +23,6 @@ static const char	RCSid[] = "$Id: color.c,v 2.42 2025/05/06 20:45:31 greg Exp $"
 #define ferror	ferror_unlocked
 #endif
 
-#ifndef THREADPRIVATE
-#define THREADPRIVATE __declspec(thread)
-#endif
-
 #define  MINELEN	17	/* minimum scanline length for encoding */
 #define  MAXELEN	0x7fff	/* maximum scanline length for encoding */
 #define  MINRUN		4	/* minimum run length */
@@ -441,8 +437,8 @@ tempbuffer(			/* get a temporary buffer */
 	size_t  len
 )
 {
-	THREADPRIVATE static void	*tempbuf = NULL;
-	THREADPRIVATE static size_t	tempbuflen = 0;
+	THREADLOCAL static void	*tempbuf = NULL;
+	THREADLOCAL static size_t	tempbuflen = 0;
 
 	if (!len) {		/* call to free */
 		if (tempbuflen) {
